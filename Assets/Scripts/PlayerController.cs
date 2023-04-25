@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
-    //private Animator _anim;
+    private Animator _anim;
 
     private bool _faceRight = true;
     private int _jumpCounter;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake() {
         _rigidbody = GetComponent<Rigidbody>();
-        //_anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
     void Start() {
@@ -49,6 +49,12 @@ public class PlayerController : MonoBehaviour
             _jumpCounter = 1;
         }
 
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Attack();
+        }
+
+        /*
         if (Input.GetButtonDown("Vertical")) {
             if (Input.GetAxisRaw("Vertical") < 0) {
                 _isCrouching = true;
@@ -56,13 +62,15 @@ public class PlayerController : MonoBehaviour
         } else if (Input.GetButtonUp("Vertical")) {
             _isCrouching = false;
         }
+        */
     }
-    /*
+    
     void LateUpdate() {
         _anim.SetBool("Idle", _movement == Vector3.zero);
         _anim.SetBool("isGrounded", IsGrounded());
-        _anim.SetBool("isCrouching", _isCrouching);
-    }*/
+        _anim.SetFloat("VerticalVelocity", _rigidbody.velocity.y);
+        //_anim.SetBool("isCrouching", _isCrouching);
+    }
 
     void PlayerMove() {
         
@@ -80,6 +88,7 @@ public class PlayerController : MonoBehaviour
     void Jump() {
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        _anim.SetTrigger("Jump");
         _jumpCounter++;
     }
 
@@ -96,5 +105,10 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded() {
         return Physics.CheckSphere(groundCheck.position, 0.01f, ground);
+    }
+
+    void Attack()
+    {
+        _anim.SetTrigger("Attack");
     }
 }
