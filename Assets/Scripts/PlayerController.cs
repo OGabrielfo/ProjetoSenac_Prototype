@@ -87,9 +87,9 @@ public class PlayerController : MonoBehaviour
         _faceRight = !_faceRight;
 
         if (_faceRight) {
-            transform.localRotation = new Quaternion(90f, 0f, 0f, 0f);
+            transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
         } else {
-            transform.localRotation = new Quaternion(90f, 0f, 0f, 0f);
+            transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
         }
         
     }
