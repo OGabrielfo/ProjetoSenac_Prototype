@@ -7,11 +7,15 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jumpForce;
     public int jumpLimit;
+    public float ClimbSpeed = 3f;
+    public float SwimSpeed = 5f;
+    public float empuxo = 5f;
+    public float flutuacao = 10f;
     public Transform groundCheck;
     public LayerMask ground;
-    public float ClimbSpeed = 3f;
     public LayerMask wall;
     public Transform wallCheck;
+    public LayerMask water;
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
@@ -21,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private int _jumpCounter;
     private bool _isCrouching = false;
     private bool _isClimbing;
+    private bool _isSwiming;
 
 
 
@@ -62,9 +67,19 @@ public class PlayerController : MonoBehaviour
             _isClimbing = true;
             Climb();
         }
-        else
+       else
         {
             _isClimbing = false;
+        }
+        if (Physics.CheckSphere(wallCheck.position, 0.01f, water))
+        {
+            _isSwiming = true;
+            Swim();
+        }
+        else
+        {
+            _isSwiming = false;
+            
         }
 
         /*
@@ -106,7 +121,36 @@ public class PlayerController : MonoBehaviour
         
         float verticalvelocity = _movement.normalized.y * ClimbSpeed;
 
-        _rigidbody.velocity= new Vector3 (_rigidbody.velocity.x, verticalvelocity, _rigidbody.velocity.z); 
+        _rigidbody.velocity= new Vector3 (_rigidbody.velocity.x, verticalvelocity, _rigidbody.velocity.z);
+    }
+
+    void Swim()
+    {
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float VerticalInput = Input.GetAxisRaw("Vertical");
+        _movement = new Vector3(horizontalInput, VerticalInput, 0f);
+
+        
+        _rigidbody.velocity = _movement * SwimSpeed;
+
+        
+        bool acimaDaAgua = transform.position.y > 0;
+
+
+        if (acimaDaAgua)
+        {
+            Vector3 forcaFlutuacao = Vector3.up * flutuacao;
+            _rigidbody.AddForce(forcaFlutuacao, ForceMode.Force);
+        }
+
+        
+        if (!acimaDaAgua)
+        {
+            Vector3 forcaEmpuxo = Vector3.down * empuxo;
+            _rigidbody.AddForce(forcaEmpuxo, ForceMode.Force);
+        }
+
+
     }
 
 
@@ -138,4 +182,12 @@ public class PlayerController : MonoBehaviour
         _anim.SetTrigger("Attack");
         
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Swim();
+
+
+    }
+
 }
