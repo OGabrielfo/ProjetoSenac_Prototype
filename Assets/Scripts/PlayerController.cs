@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public int jumpLimit;
     public Transform groundCheck;
     public LayerMask ground;
+    public GameObject AttackCol;
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Attack();
+            AttackOn();
         }
 
         /*
@@ -85,6 +86,9 @@ public class PlayerController : MonoBehaviour
         _rigidbody.velocity = new Vector3 (horizontalVelocity, _rigidbody.velocity.y, _rigidbody.velocity.z);
     }
 
+
+
+
     void Jump() {
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -107,9 +111,15 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckSphere(groundCheck.position, 0.01f, ground);
     }
 
-    void Attack()
+    void AttackOn()
     {
         _anim.SetTrigger("Attack");
-        
+        AttackCol.SetActive(true);
+    }
+
+    void AttackOff()
+    {
+        AttackCol.SetActive(false);
+        Debug.Log("Attack Off");
     }
 }
