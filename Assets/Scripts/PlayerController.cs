@@ -110,5 +110,6 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         _anim.SetTrigger("Attack");
+        
     }
 }
