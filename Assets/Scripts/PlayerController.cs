@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public int jumpLimit;
     public Transform groundCheck;
     public LayerMask ground;
+    public float ClimbSpeed = 3f;
+    public LayerMask wall;
+    public Transform wallCheck;
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
@@ -17,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool _faceRight = true;
     private int _jumpCounter;
     private bool _isCrouching = false;
+    private bool _isClimbing;
 
 
 
@@ -53,6 +57,15 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
         }
+        if (Physics.CheckSphere(wallCheck.position, 0.01f, wall))
+        {
+            _isClimbing = true;
+            Climb();
+        }
+        else
+        {
+            _isClimbing = false;
+        }
 
         /*
         if (Input.GetButtonDown("Vertical")) {
@@ -69,6 +82,7 @@ public class PlayerController : MonoBehaviour
         _anim.SetBool("Idle", _movement == Vector3.zero);
         _anim.SetBool("isGrounded", IsGrounded());
         _anim.SetFloat("VerticalVelocity", _rigidbody.velocity.y);
+        _anim.SetBool("isClimbing", _isClimbing);
         //_anim.SetBool("isCrouching", _isCrouching);
     }
 
@@ -84,6 +98,18 @@ public class PlayerController : MonoBehaviour
         float horizontalVelocity = _movement.normalized.x * speed;
         _rigidbody.velocity = new Vector3 (horizontalVelocity, _rigidbody.velocity.y, _rigidbody.velocity.z);
     }
+
+    void Climb()
+    {
+        float VerticalInput = Input.GetAxisRaw("Vertical");
+        _movement = new Vector3(0f,VerticalInput, 0f);
+        
+        float verticalvelocity = _movement.normalized.y * ClimbSpeed;
+
+        _rigidbody.velocity= new Vector3 (_rigidbody.velocity.x, verticalvelocity, _rigidbody.velocity.z); 
+    }
+
+
 
     void Jump() {
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
