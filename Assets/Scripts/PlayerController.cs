@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _faceRight = true;
     private int _jumpCounter;
-    private bool _isCrouching = false;
+    private bool _isTatuTransform = false;
+    private bool _isAttacking = false;
 
 
 
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_isCrouching) {
+        if (!_isAttacking) {
             PlayerMove();
         }
 
@@ -49,15 +50,15 @@ public class PlayerController : MonoBehaviour
             _jumpCounter = 1;
         }
 
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButtonDown("Attack") && !_isTatuTransform)
         {
             AttackOn();
         }
-
         if (Input.GetButtonDown("Transform"))
         {
             TatuTransform();
         }
+            
 
         
     }
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour
         _anim.SetBool("Idle", _movement == Vector3.zero);
         _anim.SetBool("isGrounded", IsGrounded());
         _anim.SetFloat("VerticalVelocity", _rigidbody.velocity.y);
+        _anim.SetBool("Transform",_isTatuTransform);
         //_anim.SetBool("isCrouching", _isCrouching);
     }
 
@@ -84,7 +86,17 @@ public class PlayerController : MonoBehaviour
 
     void TatuTransform()
     {
-        Debug.Log("Transformou");
+        if (_isTatuTransform == false)
+        {
+            GetComponent<SphereCollider>().enabled = true;
+            GetComponent<CapsuleCollider>().enabled = false;
+            _isTatuTransform = true;
+        } else
+        {
+            GetComponent<CapsuleCollider>().enabled = true;
+            GetComponent<SphereCollider>().enabled = false;
+            _isTatuTransform = false;
+        }
     }
 
 
@@ -112,14 +124,16 @@ public class PlayerController : MonoBehaviour
 
     void AttackOn()
     {
+        _rigidbody.velocity = Vector3.zero;
         _anim.SetTrigger("Attack");
         AttackCol.SetActive(true);
+        _isAttacking = true;
     }
 
     void AttackOff()
     {
         AttackCol.SetActive(false);
-        Debug.Log("Attack Off");
+        _isAttacking = false;
     }
 
 }
