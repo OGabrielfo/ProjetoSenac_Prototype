@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         if (!_isCrouching) {
             PlayerMove();
         }
-        
 
         if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded())) {
             Jump();
@@ -50,20 +49,17 @@ public class PlayerController : MonoBehaviour
             _jumpCounter = 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetButtonDown("Attack"))
         {
             AttackOn();
         }
 
-        /*
-        if (Input.GetButtonDown("Vertical")) {
-            if (Input.GetAxisRaw("Vertical") < 0) {
-                _isCrouching = true;
-            }
-        } else if (Input.GetButtonUp("Vertical")) {
-            _isCrouching = false;
+        if (Input.GetButtonDown("Transform"))
+        {
+            TatuTransform();
         }
-        */
+
+        
     }
     
     void LateUpdate() {
@@ -86,7 +82,10 @@ public class PlayerController : MonoBehaviour
         _rigidbody.velocity = new Vector3 (horizontalVelocity, _rigidbody.velocity.y, _rigidbody.velocity.z);
     }
 
-
+    void TatuTransform()
+    {
+        Debug.Log("Transformou");
+    }
 
 
     void Jump() {
@@ -122,4 +121,5 @@ public class PlayerController : MonoBehaviour
         AttackCol.SetActive(false);
         Debug.Log("Attack Off");
     }
+
 }
