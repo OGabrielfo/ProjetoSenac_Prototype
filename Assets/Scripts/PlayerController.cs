@@ -31,9 +31,6 @@ public class PlayerController : MonoBehaviour
     private bool _isSwiming;
 
 
-
-    // Start is called before the first frame update
-
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -45,15 +42,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
-    // Update is called once per frame
     void Update()
     {
         if (!_isAttacking) {
             PlayerMove();
         }
-
 
         if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded()))
         {
@@ -69,7 +62,8 @@ public class PlayerController : MonoBehaviour
         {
             AttackOn();
         }
-        if (Input.GetButtonDown("Transform"))
+
+        if (Input.GetButtonDown("Transform") && !_isClimbing && !_isAttacking && !_isSwiming)
         {
             TatuTransform();
         }
@@ -78,23 +72,17 @@ public class PlayerController : MonoBehaviour
         {
             _isClimbing = true;
             Climb();
-        }
-        else
-        {
+        } else {
             _isClimbing = false;
         }
+
         if (Physics.CheckSphere(waterCheck.position, 0.01f, water))
         {
             _isSwiming = true;
             Swim();
-        }
-        else
-        {
+        } else {
             _isSwiming = false;
-
         }
-
-        
     }
 
     void LateUpdate()
@@ -177,8 +165,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
     void Jump()
     {
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
@@ -209,7 +195,10 @@ public class PlayerController : MonoBehaviour
 
     void AttackOn()
     {
-        _rigidbody.velocity = Vector3.zero;
+        if (IsGrounded())
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
         _anim.SetTrigger("Attack");
         AttackCol.SetActive(true);
         _isAttacking = true;
@@ -220,6 +209,4 @@ public class PlayerController : MonoBehaviour
         AttackCol.SetActive(false);
         _isAttacking = false;
     }
-
-
 }
