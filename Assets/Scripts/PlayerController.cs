@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask wall;
     public Transform wallCheck;
     public LayerMask water;
+    public Transform waterCheck;
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
@@ -76,7 +77,7 @@ public class PlayerController : MonoBehaviour
         {
             _isClimbing = false;
         }
-        if (Physics.CheckSphere(wallCheck.position, 0.01f, water))
+        if (Physics.CheckSphere(waterCheck.position, 0.01f, water))
         {
             _isSwiming = true;
             Swim();
@@ -199,19 +200,5 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        Swim();
-
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.layer == water)
-        {
-            _rigidbody.velocity = Vector3.zero;
-        }
-    }
 
 }
