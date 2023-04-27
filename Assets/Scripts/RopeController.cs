@@ -4,20 +4,47 @@ using UnityEngine;
 
 public class RopeController : MonoBehaviour
 {
-    public GameObject ropeTop;
-    public GameObject ropeBottom;
-    public LineRenderer lineRenderer;
+    private HingeJoint _hingeJoint;
+    private Rigidbody _playerRigidbody;
 
-    // Start is called before the first frame update
-    void Start()
+    private bool _isSwinging = false;
+
+    private void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        _hingeJoint = GetComponentInChildren<HingeJoint>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        lineRenderer.SetPosition(0, ropeBottom.transform.position);
-        lineRenderer.SetPosition(1, ropeTop.transform.position);
+        if (other.CompareTag("Player"))
+        {
+            _playerRigidbody = other.GetComponent<Rigidbody>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _playerRigidbody = null;
+        }
+    }
+
+    private void Update()
+    {
+        if (_playerRigidbody != null && Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!_isSwinging)
+            {
+                _hingeJoint.connectedBody = _playerRigidbody;
+                _isSwinging = true;
+            }
+            else
+            {
+                _hingeJoint.connectedBody = null;
+                _isSwinging = false;
+                _playerRigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+            }
+        }
     }
 }
