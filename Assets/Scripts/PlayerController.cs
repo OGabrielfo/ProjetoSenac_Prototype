@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     public LayerMask water;
     public Transform waterCheck;
     public Vector3 vineVelocityWhenGrabbed;
+    public float dashDistance;
+    public float dashTime;
+    public float dashCooldown;
+
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool _isClimbing = false;
     private bool _isSwiming = false;
     private bool _isSwinging = false;
+    private bool _canDash = true;
 
 
     void Awake()
@@ -60,11 +65,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!_isAttacking || !_isSwinging) {
-            PlayerMove();
+        if (Input.GetButtonDown("Dash") && _canDash && (!_isSwinging || !_isAttacking || !_isSwiming || !_isClimbing || !_isTatuTransform))
+        {
+            _canDash = false;
+            StartCoroutine("Dash");
         }
 
-        Debug.Log(_rigidbody.velocity.x);
+        if (!_isAttacking || !_isSwinging || !_canDash) {
+            PlayerMove();
+        }
 
         if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded()))
         {
@@ -228,9 +237,25 @@ public class PlayerController : MonoBehaviour
         _isAttacking = false;
     }
 
+    IEnumerator Dash()
+    {
+        float startTime = Time.time;
+        Vector3 dashDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+        
+        while (Time.time < startTime + dashTime)
+        {
+            _rigidbody.velocity = dashDirection * dashDistance;
+            yield return null;
+        }
+
+        _rigidbody.velocity = Vector3.zero;
+        yield return new WaitForSeconds(dashCooldown);
+        _canDash = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "RopeSegment" && !_isTatuTransform)
+        if(other.gameObject.tag == "RopeSegment" && !_isTatuTransform && _canDash)
         {
             vineVelocityWhenGrabbed = _rigidbody.velocity * 2.5f;
             other.GetComponent<Rigidbody>().velocity = vineVelocityWhenGrabbed;
