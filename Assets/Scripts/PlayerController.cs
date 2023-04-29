@@ -18,17 +18,21 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheck;
     public LayerMask water;
     public Transform waterCheck;
+    public Vector3 vineVelocityWhenGrabbed;
 
     private Rigidbody _rigidbody;
     private Vector3 _movement;
     private Animator _anim;
+    private Transform _currentSwingable;
+    
 
     private bool _faceRight = true;
     private int _jumpCounter;
     private bool _isTatuTransform = false;
     private bool _isAttacking = false;
-    private bool _isClimbing;
-    private bool _isSwiming;
+    private bool _isClimbing = false;
+    private bool _isSwiming = false;
+    private bool _isSwinging = false;
 
 
     void Awake()
@@ -44,9 +48,23 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_isAttacking) {
+        if (_isSwinging)
+        {
+            _movement = Vector3.zero;
+            transform.position = _currentSwingable.position;
+            if (Input.GetButtonDown("Jump"))
+            {
+                _isSwinging = false;
+                _rigidbody.velocity = new Vector3(_currentSwingable.GetComponent<Rigidbody>().velocity.x + 5, _currentSwingable.GetComponent<Rigidbody>().velocity.y + 5, _currentSwingable.GetComponent<Rigidbody>().velocity.z);
+                _rigidbody.useGravity = true;
+            }
+        }
+
+        if (!_isAttacking || !_isSwinging) {
             PlayerMove();
         }
+
+        Debug.Log(_rigidbody.velocity.x);
 
         if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded()))
         {
@@ -209,4 +227,16 @@ public class PlayerController : MonoBehaviour
         AttackCol.SetActive(false);
         _isAttacking = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "RopeSegment" && !_isTatuTransform)
+        {
+            vineVelocityWhenGrabbed = _rigidbody.velocity * 2.5f;
+            other.GetComponent<Rigidbody>().velocity = vineVelocityWhenGrabbed;
+            _isSwinging = true;
+            _currentSwingable = other.transform;
+        }
+    }
+
 }
