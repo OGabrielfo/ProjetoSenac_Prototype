@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float dashDistance;
     public float dashTime;
     public float dashCooldown;
+    public float vida;
 
 
     private Rigidbody _rigidbody;
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private Transform _currentSwingable;
     private GameObject _contactBlock;
+    public Image _vidaUI;
     
 
     private bool _faceRight = true;
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
             PlayerMove();
         }
 
-        if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded()))
+        if (Input.GetButtonDown("Jump") && ((_jumpCounter < jumpLimit) || IsGrounded()) && !_isTatuTransform)
         {
             Jump();
         }
@@ -134,6 +137,8 @@ public class PlayerController : MonoBehaviour
         _anim.SetFloat("VerticalVelocity", _rigidbody.velocity.y);
         _anim.SetBool("Transform",_isTatuTransform);
         _anim.SetBool("isClimbing", _isClimbing);
+
+        _vidaUI.rectTransform.localScale = new Vector3(2.5f * (vida/100), _vidaUI.rectTransform.localScale.y, _vidaUI.rectTransform.localScale.z);
     }
 
     void PlayerMove()
@@ -279,7 +284,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.collider.tag == "EscavationBlock")
         {
