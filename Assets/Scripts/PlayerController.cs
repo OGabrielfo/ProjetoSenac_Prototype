@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _movement;
     private Animator _anim;
     private Transform _currentSwingable;
+    private GameObject _contactBlock;
     
 
     private bool _faceRight = true;
@@ -94,6 +95,16 @@ public class PlayerController : MonoBehaviour
         {
             TatuTransform();
         }
+
+        if(_isTatuTransform && Input.GetButtonDown("Vertical") && _contactBlock != null)
+        {
+            float verticalInput = Input.GetAxisRaw("Vertical");
+            if(verticalInput < 0)
+            {
+                BlocoEscavacao escavacaoBloco = _contactBlock.GetComponent<BlocoEscavacao>();
+                escavacaoBloco.EscavarBloco();
+            }
+        }
             
         if (Physics.CheckSphere(wallCheck.position, 0.01f, wall))
         {
@@ -105,6 +116,10 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.CheckSphere(waterCheck.position, 0.01f, water))
         {
+            if (_isTatuTransform)
+            {
+                TatuTransform();
+            }
             _isSwiming = true;
             Swim();
         } else {
@@ -264,4 +279,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "EscavationBlock")
+        {
+            _contactBlock = collision.gameObject;
+        }
+        
+    }
+    
 }
