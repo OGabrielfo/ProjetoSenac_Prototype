@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18388125, g: 0.22881126, b: 0.30185896, a: 1}
+  m_IndirectSpecularColor: {r: 0.18388078, g: 0.22881046, b: 0.30185786, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -759,7 +759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59629496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.65, y: 0.8, z: 0.20685577}
+  m_LocalPosition: {x: 109.6, y: 0.8, z: 0.20685577}
   m_LocalScale: {x: 1.2713839, y: 1.2713839, z: 1.2713839}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8050,7 +8050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &597237675
 Transform:
   m_ObjectHideFlags: 0
@@ -8208,6 +8208,7 @@ MonoBehaviour:
   bossActivator: {fileID: 1373700624}
   vidaBoss: {fileID: 2036101001}
   attackCol: {fileID: 1963591083}
+  faseDois: {r: 1, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!1001 &604840866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30972,7 +30973,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024501761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.65, y: 0.8, z: -9.793144}
+  m_LocalPosition: {x: 109.6, y: 0.8, z: -9.793144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32014,7 +32015,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088839689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.65, y: 0.8, z: -9.793144}
+  m_LocalPosition: {x: 109.6, y: 0.8, z: -9.793144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

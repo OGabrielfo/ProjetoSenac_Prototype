@@ -7,23 +7,37 @@ public class FollowPlayer : StateMachineBehaviour
     public float speed;
     public float minDistance;
     
+
     private Transform _playerPos;
+    private float _vidaAtual;
+    private float _vidaMax;
 
 
      //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
+        _vidaAtual = animator.GetFloat("VidaAtual");
+        _vidaMax = animator.GetFloat("VidaTotal");
     }
 
      //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        float distanciaDoPlayer;
+
         //Seguir Player
-        Vector3 targetPosition = new Vector3(_playerPos.position.x, animator.transform.position.y, _playerPos.position.z);
-        animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed);
-        float distanciaDoPlayer = Vector3.Distance(_playerPos.position, animator.transform.position);
+        if (_vidaAtual <= _vidaMax/2)
+        {
+            Vector3 targetPosition = new Vector3(_playerPos.position.x, animator.transform.position.y, _playerPos.position.z);
+            animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed * 2);
+            distanciaDoPlayer = Vector3.Distance(_playerPos.position, animator.transform.position);
+        } else
+        {
+            Vector3 targetPosition = new Vector3(_playerPos.position.x, animator.transform.position.y, _playerPos.position.z);
+            animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed);
+            distanciaDoPlayer = Vector3.Distance(_playerPos.position, animator.transform.position);
+        }
 
         //Flipar a imagem do boss
         if (_playerPos.position.x > animator.transform.position.x)

@@ -5,16 +5,21 @@ using UnityEngine;
 public class Attacking : StateMachineBehaviour
 {
 
+    private float _vidaAtual;
+    private float _vidaMax;
+
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        _vidaAtual = animator.GetFloat("VidaAtual");
+        _vidaMax = animator.GetFloat("VidaTotal");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

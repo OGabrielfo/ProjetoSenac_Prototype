@@ -5,27 +5,50 @@ using UnityEngine;
 
 public class Waiting : StateMachineBehaviour
 {
-    public float timer;
+    
     public float minTime;
     public float maxTime;
+
+    private float timer;
+    private float timerFaseDois;
+    private float _vidaAtual;
+    private float _vidaMax;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = Random.Range(minTime, maxTime);
+        _vidaAtual = animator.GetFloat("VidaAtual");
+        _vidaMax = animator.GetFloat("VidaTotal");
+        timerFaseDois = timer / 2;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (timer <= 0)
+        if (_vidaAtual <= _vidaMax / 2)
         {
-            animator.SetBool("Idle", false);
-        } 
+            if (timerFaseDois <= 0)
+            {
+                animator.SetBool("Idle", false);
+            }
+            else
+            {
+                timerFaseDois -= Time.deltaTime;
+            }
+        }
         else
         {
-            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                animator.SetBool("Idle", false);
+            }
+            else
+            {
+                timer -= Time.deltaTime;
+            }
         }
+            
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

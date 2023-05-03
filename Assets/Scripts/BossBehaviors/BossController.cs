@@ -12,10 +12,12 @@ public class BossFirstBehavior : MonoBehaviour
     public GameObject bossActivator;
     public GameObject vidaBoss;
     public GameObject attackCol;
+    public Color faseDois;
 
 
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private SpriteRenderer _spriteRenderer;
     private bool _attack = false;
 
 
@@ -23,7 +25,10 @@ public class BossFirstBehavior : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         vida = vidaMax;
+        _anim.SetFloat("VidaAtual", vida);
+        _anim.SetFloat("VidaTotal", vidaMax);
     }
 
     // Start is called before the first frame update
@@ -35,13 +40,17 @@ public class BossFirstBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (vida <= vidaMax/2)
+        {
+            _spriteRenderer.color = faseDois;
+        }
         
     }
 
     private void LateUpdate()
     {
         _anim.SetBool("Dead", vida <= 0);
+        _anim.SetFloat("VidaAtual", vida);
 
         vidaUI.rectTransform.localScale = new Vector3(1.65f * (vida / vidaMax), vidaUI.rectTransform.localScale.y, vidaUI.rectTransform.localScale.z);
     }
