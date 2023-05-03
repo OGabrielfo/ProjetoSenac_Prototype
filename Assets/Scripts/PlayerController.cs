@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public float SwimSpeed = 5f;
     public float empuxo = 5f;
     public float flutuacao = 10f;
+    public float vida;
+    public float dano;
     public Transform groundCheck;
     public LayerMask ground;
     public GameObject AttackCol;
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public float dashDistance;
     public float dashTime;
     public float dashCooldown;
-    public float vida;
+    
 
 
     private Rigidbody _rigidbody;
@@ -258,6 +260,18 @@ public class PlayerController : MonoBehaviour
         _isAttacking = false;
     }
 
+    public void ReceberDano(float quantidade)
+    {
+
+        vida -= quantidade;
+
+
+        if (vida <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     IEnumerator Dash()
     {
         float startTime = Time.time;
@@ -273,6 +287,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {

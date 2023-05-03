@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - RopeSegment
   - EscavationBlock
+  - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BossFirstBehavior : MonoBehaviour
 {
@@ -13,12 +15,14 @@ public class BossFirstBehavior : MonoBehaviour
     public GameObject vidaBoss;
     public GameObject attackCol;
     public Color faseDois;
+    public float dano;
 
 
     private Rigidbody _rigidbody;
     private Animator _anim;
     private SpriteRenderer _spriteRenderer;
     private bool _attack = false;
+    private bool _isAttacking = false;
 
 
     private void Awake()
@@ -56,12 +60,6 @@ public class BossFirstBehavior : MonoBehaviour
     }
     
 
-    public void TakeDamage(float damage)
-    {
-        _rigidbody.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        vida -= damage;
-    }
-
     public void Dead()
     {
         Destroy(gameObject);
@@ -69,14 +67,26 @@ public class BossFirstBehavior : MonoBehaviour
         bossActivator.SetActive(false);
     }
 
+    public void ReceberDano(float dano)
+    {
+        if (!_isAttacking)
+        {
+            vida -= dano;
+            _anim.SetTrigger("Hit");
+        }
+    }
+
     void TriggerAttack()
     {
+
         if (_attack)
         {
+            _isAttacking = false;
             _attack = false;
             attackCol.SetActive(false);
         } else
         {
+            _isAttacking = true;
             _attack = true;
             attackCol.SetActive(true);
         }
