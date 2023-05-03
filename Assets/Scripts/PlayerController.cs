@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float empuxo = 5f;
     public float flutuacao = 10f;
     public float vida;
+    public float vidaMax;
     public float dano;
     public Transform groundCheck;
     public LayerMask ground;
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private bool _isSwiming = false;
     private bool _isSwinging = false;
     private bool _canDash = true;
+    private float timer = 2f;
 
 
     void Awake()
@@ -129,6 +132,21 @@ public class PlayerController : MonoBehaviour
             Swim();
         } else {
             _isSwiming = false;
+        }
+
+        if (vida <= 0)
+        {
+            transform.localScale = Vector3.zero;
+            if (timer <= 0)
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
+            else
+            {
+                timer -= Time.deltaTime;
+            }
+
+
         }
     }
 
@@ -262,14 +280,14 @@ public class PlayerController : MonoBehaviour
 
     public void ReceberDano(float quantidade)
     {
-
-        vida -= quantidade;
-
-
-        if (vida <= 0)
+        if (vida > 0)
         {
-            Destroy(gameObject);
+            vida -= quantidade;
         }
+        
+
+
+        
     }
 
     IEnumerator Dash()

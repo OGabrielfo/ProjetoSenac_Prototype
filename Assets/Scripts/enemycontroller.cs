@@ -6,8 +6,8 @@ public class enemycontroller : MonoBehaviour
 {
 
     public float velocidade;
-    public float saude = 100f;
-    public float dano = 10f;
+    public float saude;
+    public float dano;
     public float distanciaDoPlayer;
     public float distanciaMaxima;
     public float veloci = 5f;
@@ -67,17 +67,7 @@ public class enemycontroller : MonoBehaviour
     }
     public void ReceberDano(float quantidade)
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        Vector3 knockback = new Vector3(3f, 0f, 0f);
-
-        if (transform.localRotation.y == 0)
-        {
-            _rigidbody.AddForce(knockback, ForceMode.Impulse);
-        }
-        else
-        {
-            _rigidbody.AddForce(knockback * -1, ForceMode.Impulse);
-        }
+        
         saude -= quantidade;
         _anim.SetTrigger("Hit");
 

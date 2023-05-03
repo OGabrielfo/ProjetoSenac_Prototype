@@ -20,7 +20,7 @@ public class Waiting : StateMachineBehaviour
         timer = Random.Range(minTime, maxTime);
         _vidaAtual = animator.GetFloat("VidaAtual");
         _vidaMax = animator.GetFloat("VidaTotal");
-        timerFaseDois = timer / 2;
+        timerFaseDois = timer / 3;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

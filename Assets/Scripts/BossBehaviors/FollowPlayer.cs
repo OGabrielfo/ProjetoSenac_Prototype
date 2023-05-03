@@ -30,7 +30,7 @@ public class FollowPlayer : StateMachineBehaviour
         if (_vidaAtual <= _vidaMax/2)
         {
             Vector3 targetPosition = new Vector3(_playerPos.position.x, animator.transform.position.y, _playerPos.position.z);
-            animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed * 2);
+            animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed * 3);
             distanciaDoPlayer = Vector3.Distance(_playerPos.position, animator.transform.position);
         } else
         {
