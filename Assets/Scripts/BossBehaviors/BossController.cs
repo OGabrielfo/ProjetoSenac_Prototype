@@ -9,11 +9,14 @@ public class BossFirstBehavior : MonoBehaviour
     public float vida;
     public float vidaMax;
     public Image vidaUI;
-
+    public GameObject bossActivator;
+    public GameObject vidaBoss;
+    public GameObject attackCol;
 
 
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private bool _attack = false;
 
 
     private void Awake()
@@ -42,26 +45,31 @@ public class BossFirstBehavior : MonoBehaviour
 
         vidaUI.rectTransform.localScale = new Vector3(1.65f * (vida / vidaMax), vidaUI.rectTransform.localScale.y, vidaUI.rectTransform.localScale.z);
     }
-    /*
-    IEnumerator FirstBehavior()
-    {
-
-    }
-
-    IEnumerator SecondBehavior()
-    {
-
-    }
-    */
+    
 
     public void TakeDamage(float damage)
     {
-
+        _rigidbody.AddForce(Vector3.up * 5, ForceMode.Impulse);
         vida -= damage;
     }
 
     public void Dead()
     {
         Destroy(gameObject);
+        vidaBoss.SetActive(false);
+        bossActivator.SetActive(false);
+    }
+
+    void TriggerAttack()
+    {
+        if (_attack)
+        {
+            _attack = false;
+            attackCol.SetActive(false);
+        } else
+        {
+            _attack = true;
+            attackCol.SetActive(true);
+        }
     }
 }

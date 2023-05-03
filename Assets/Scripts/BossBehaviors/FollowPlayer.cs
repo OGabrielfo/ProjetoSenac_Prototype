@@ -21,8 +21,22 @@ public class FollowPlayer : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Seguir Player
+        Vector3 targetPosition = new Vector3(_playerPos.position.x, animator.transform.position.y, _playerPos.position.z);
+        animator.transform.position = Vector3.Lerp(animator.transform.position, targetPosition, Time.deltaTime * speed);
+        float distanciaDoPlayer = Vector3.Distance(_playerPos.position, animator.transform.position);
+
+        //Flipar a imagem do boss
+        if (_playerPos.position.x > animator.transform.position.x)
+        {
+            animator.transform.localRotation = new Quaternion(0f, 180f, 0f, 0f);
+        } else
+        {
+            animator.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+        }
+
+
         //Executar Ataque ao chegar próximo do player
-        if(animator.transform.position.x - _playerPos.position.x <= minDistance)
+        if (distanciaDoPlayer <= minDistance)
         {
             animator.SetTrigger("Attack");
         }

@@ -238,6 +238,7 @@ public class PlayerController : MonoBehaviour
     bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheck.position, 0.01f, ground);
+
     }
 
     void AttackOn()
