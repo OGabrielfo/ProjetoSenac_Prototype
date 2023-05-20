@@ -29,7 +29,7 @@ Material:
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -109,8 +109,8 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FoamAmount: 1.66
-    - _FoamCutOff: 2.68
+    - _FoamAmount: 1.3
+    - _FoamCutOff: 1
     - _FoamScale: 100
     - _FoamSpeed: 0.5
     - _GlossMapScale: 0
@@ -122,9 +122,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RefractionScale: 0.55
+    - _RefractionScale: 0.8
     - _RefractionSpeed: 0.03
-    - _RefractionStrength: 0.92
+    - _RefractionStrength: 0.8
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -137,9 +137,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepWater: {r: 0, g: 0, b: 0, a: 0.22745098}
+    - _DeepWater: {r: 0.027901392, g: 0.033954747, b: 0.1792453, a: 0.22745098}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.66909933, g: 0.7924528, b: 0.74285704, a: 0.8509804}
-    - _ShallowWater: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0.19607843}
+    - _FoamColor: {r: 0.8443396, g: 0.88013047, b: 1, a: 0.8509804}
+    - _ShallowWater: {r: 0.7122642, g: 0.9491694, b: 1, a: 0.19607843}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
